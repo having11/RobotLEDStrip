@@ -17,6 +17,7 @@ int pixelPosition = 0;
 I2C *I2Channel;
 I2Channel = new I2C(I2C::kOnboard, I2C_SLAVE_ADR);
 
+relay.turnOn()
 
 if(button1.pressed()){
 	if(pixelPosition > 6){
