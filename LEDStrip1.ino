@@ -79,7 +79,7 @@ void loop() {
       }
       break;
     case 'o':
-      colorWipe(strip.Color(0,0,0), 50); //Off
+      colorWipe(strip.Color(0,0,0), 0); //Off
       break;
     case 'p':
       if(currentColor == 'r'){
@@ -230,7 +230,7 @@ void visualize(uint16_t c){
     Serial.println(VData);
   }
   int y = map(VData,0,500,1,15);
-  for(uint16_t i=y;i<strip.numPixels();i++){
+  for(uint16_t i=y;i<20;i++){
     strip.setPixelColor(i,(0,0,0));
   }
   for(uint16_t i=0; i < y; i++){
