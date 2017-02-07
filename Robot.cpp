@@ -7,7 +7,7 @@
 'r' = Set to red, 'g' = Set to green, 'b' = Set to blue, 'u' = Rainbow, 'c' = Rainbow cycle,
 'h' = Chase, 'o' = Off
 
-'r' = 0x72, 'g' = 0x67, 'b' = 0x62, 'u' = 0x75, 'c' = 0x63, 'h' = 0x68, 'o' = 0x6F
+'r' = 114, 'g' = 103, 'b' = 98, 'u' = 117, 'c' = 99, 'h' = 104, 'o' = 111
 
 'o' -> 'r' -> 'g' -> 'b' -> 'u' -> 'c' -> 'h' -> ...
 */
