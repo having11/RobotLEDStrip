@@ -9,7 +9,7 @@
 
 'r' = 114, 'g' = 103, 'b' = 98, 'u' = 117, 'c' = 99, 'h' = 104, 'o' = 111, 't' = 116, 'p' = 112, 's' = 115
 
-'o' -> 'r' -> 'g' -> 'b' -> 'u' -> 'c' -> 'h' -> 't' -> 'p' -> 'v' -> ...
+'o' -> 'r' -> 'g' -> 'b' -> 'u' -> 'c' -> 'h' -> 't' -> 'p' -> 's' -> ...
 */
 
 int pixelPosition = 0;
@@ -20,7 +20,7 @@ I2Channel = new I2C(I2C::kOnboard, I2C_SLAVE_ADR);
 relay.turnOn()
 
 if(button1.pressed()){
-	if(pixelPosition == 8){
+	if(pixelPosition == 9){
 		pixelPosition = 0;
 	}
 	else{
@@ -30,7 +30,7 @@ if(button1.pressed()){
 
 if(button2.pressed){
 	if(pixelPosition == 0){
-		pixelPosition = 8;
+		pixelPosition = 9;
 	}
 	else{
 		pixelPosition -= 1;
@@ -64,6 +64,9 @@ switch(pixelPosition()){
 		break;
 	case 8:
 		I2CWrite(112);
+		break;
+	case 9:
+		I2CWrite(115);
 		break;
 }
 
