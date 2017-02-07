@@ -7,9 +7,9 @@
 'r' = Set to red, 'g' = Set to green, 'b' = Set to blue, 'u' = Rainbow, 'c' = Rainbow cycle,
 'h' = Chase, 'o' = Off
 
-'r' = 114, 'g' = 103, 'b' = 98, 'u' = 117, 'c' = 99, 'h' = 104, 'o' = 111, 't' = 116
+'r' = 114, 'g' = 103, 'b' = 98, 'u' = 117, 'c' = 99, 'h' = 104, 'o' = 111, 't' = 116, 'p' = 112
 
-'o' -> 'r' -> 'g' -> 'b' -> 'u' -> 'c' -> 'h' -> 't' -> ...
+'o' -> 'r' -> 'g' -> 'b' -> 'u' -> 'c' -> 'h' -> 't' -> 'p' -> ...
 */
 
 int pixelPosition = 0;
@@ -20,7 +20,7 @@ I2Channel = new I2C(I2C::kOnboard, I2C_SLAVE_ADR);
 relay.turnOn()
 
 if(button1.pressed()){
-	if(pixelPosition == 7){
+	if(pixelPosition == 8){
 		pixelPosition = 0;
 	}
 	else{
@@ -30,7 +30,7 @@ if(button1.pressed()){
 
 if(button2.pressed){
 	if(pixelPosition == 0){
-		pixelPosition = 7;
+		pixelPosition = 8;
 	}
 	else{
 		pixelPosition -= 1;
@@ -61,6 +61,9 @@ switch(pixelPosition()){
 		break;
 	case 7:
 		I2CWrite(116);
+		break;
+	case 8:
+		I2CWrite(112);
 		break;
 }
 
