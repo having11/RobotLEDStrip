@@ -228,13 +228,11 @@ void visualize(uint16_t c){
   VData = analogRead(0);
   delay(10);
   int y = map(VData,300,500,1,15);
-  if(y < 16){
-  for(uint16_t i=y;i<20;i++){
-    strip.setPixelColor(i,(0,0,0));
-  }
-  for(uint16_t i=0; i < y; i++){
+  if(y <= 16){
+  for(uint16_t i=0; i < 8; i++){
     strip.setPixelColor(i,c);
   }
+    
   }
   else if(y > 16){
     for(uint16_t i=y;i<strip.numPixels();i++){
