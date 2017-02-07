@@ -2,7 +2,7 @@
 #include <Wire.h>
 
 #define PIN 6
-#define LEDNUM 75
+#define LEDNUM 150
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = pin number (most are valid)
