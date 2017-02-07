@@ -8,7 +8,7 @@ CHUNK = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 2
 RATE = 44100
-file_name = "20sylTest.wav"
+file_name = "fileName.wav"
 wf = wave.open(file_name,'rb')
 ser = serial.Serial('COM3',baudrate=9600)
 iterate = 0
