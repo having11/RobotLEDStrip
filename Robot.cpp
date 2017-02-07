@@ -37,7 +37,7 @@ if(button2.pressed){
 	}
 }
 	
-switch(pixelPosition()){
+switch(pixelPosition){
 	case 0:
 		I2CWrite(111);
 		break;
