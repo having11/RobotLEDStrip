@@ -16,8 +16,17 @@
 'r' = Set to red, 'g' = Set to green, 'b' = Set to blue, 'u' = Rainbow, 'c' = Rainbow cycle,
 'h' = Chase, 'o' = Off
 */
+#define MIC_PIN A0
+
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(LEDNUM, PIN, NEO_GRB + NEO_KHZ800);
 
+int vol = 0;
+float total = 0;
+int fadeCol = 0;
+int val[25];
+int volLast = 0;
+int fadeAmt = 0;
+int counter = 0;
 int c;
 char currentColor = 'n';
 char IData = 'o';
@@ -93,7 +102,7 @@ void loop() {
       }
       break;
     case 's':
-      visualize(strip.Color(0,255,0));
+      visualize2();
       break;
 }
 }
@@ -227,32 +236,129 @@ void breathe(char c){
 void visualize(uint16_t c){
   VData = analogRead(0);
   delay(10);
-  int y = map(VData,300,500,1,15);
-  if(y<16){
-	  for(int r=0; r<16;r++){
-		  strip.setPixelColor(r,strip.Color(0,0,0));
-	  }
-	  if(y>8){
-		  for(int i=0;i<7;i++){
-			  strip.setPixelColor(i,c);
-		  }
-		  if(y>12){
-			  for(int x=8;x<y;x++){
-			  strip.setPixelColor(x,strip.Color(255,255,0));
-		  }
-			  if(y>=15){
-				  for(int p=12;p<y;p++){
-			  strip.setPixelColor(p,strip.Color(255,0,0));
-		  }
-			  }
-		  }
-	  }
-	  else if(y<=8){
-		  for(int z=0;z<y;z++){
-			  strip.setPixelColor(z,c);
-		  }
-	  }
+  int y = map(VData,300,500,1,20);
+  if(y<21){
+    for(int r=0; r<20;r++){
+      strip.setPixelColor(r,strip.Color(0,0,0));
+    }
+    if(y>8){
+      for(int i=0;i<8;i++){
+        strip.setPixelColor(i,c);
+        strip.show();
+      }
+      if(y>12){
+        for(int x=8;x<y;x++){
+        strip.setPixelColor(x,strip.Color(255,255,0));
+        strip.show();
+      }
+        if(y>=20){
+          for(int p=13;p<y;p++){
+        strip.setPixelColor(p,strip.Color(255,0,0));
+        strip.show();
+      }
+        }
+      }
+    }
+    else if(y<=8){
+      for(int z=0;z<y;z++){
+        strip.setPixelColor(z,c);
+        strip.show();
+      }
+    }
   }
   strip.show();
- }
+}
+
+uint32_t Wheel2(byte WheelPos) {
+  WheelPos = 255 - WheelPos;
+  if(WheelPos < 85) {
+   return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+  } else if(WheelPos < 170) {
+    WheelPos -= 85;
+   return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
+  } else {
+   WheelPos -= 170;
+   return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
+  }
+}
+
+void rainbowCycle2(uint8_t wait) {
+  uint16_t i, j;
+
+  for(j=0; j<256*5; j++) { // 5 cycles of all colors on wheel
+    for(i=0; i< strip.numPixels(); i++) {
+      strip.setPixelColor(i, Wheel2(((i * 256 / strip.numPixels()) + j) & 255));
+    }
+    strip.show();
+    delay(wait);
+     vol = analogRead(MIC_PIN);
+     if (vol> 10) {
+
+      return;
+
+     }
+
+
+  }
+}
+
+void visualize2(){
+   fadeCol = 0;
+  total = 0;
+
+  for (int i = 0; i < 80; i++){
+      counter = 0;
+       do{
+      vol = analogRead(MIC_PIN);
+
+      counter = counter + 1;
+      if (counter > 500){
+         rainbowCycle2(10);
+
+      }
+    }while (vol == 0);
+
+    total = total + vol;
+
+  }
+
+  vol = total / 100;
+
+  Serial.print("BEFORE: ");
+  Serial.println(vol);
+  vol = map(vol,270,330,0,20);
+  Serial.print("AFTER: ");
+  Serial.println(vol);
+
+  if (volLast > vol) {
+    vol = volLast - 4;
+  }
+
+  volLast = vol;
+  fadeAmt = 10;
+
+
+  for (int i = 0; i<150;i++){
+// Serial.print("AFTER: ");
+//   Serial.println(vol);
+    if (i < vol){
+         strip.setPixelColor((i+150), strip.Color(0,255,0));
+         strip.setPixelColor((150-i), strip.Color(0,255,0));
+    }
+    else if (i < (vol + 38)) {
+         strip.setPixelColor((i+150), strip.Color(255,0,0));
+         strip.setPixelColor((150-i), strip.Color(255,0,0));
+    }
+    else
+    {
+         strip.setPixelColor((i+150), strip.Color(0,0,255));
+         strip.setPixelColor((150-i), strip.Color(0,0,255));
+    }
+  }
+  strip.show();
+
+}
+
+
+
 
